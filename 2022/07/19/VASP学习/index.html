@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/justin.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"goedii.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="学习资料来源：B站  第一节：DFT理论基础密度泛函理论：求解薛定谔方程的一个物理模型 推导思维过程： 先讲讲薛定谔方程，对于一个系统（一块材料），我们一定可以写出一个薛定谔方程，这个薛定谔方程的解就是波函数，我们拿到这个波函数后就可以探究得到系统的各种性质。 但薛定谔方程的求解对于单电子（氢原子）系统来说简单，对于多电子就非常的难，也就是说除了氢原子的薛定谔方程可以精确求解，其他的都不行。 密度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VASP学习">
+<meta property="og:url" content="https://goedii.github.io/2022/07/19/VASP%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Treehole~">
+<meta property="og:description" content="学习资料来源：B站  第一节：DFT理论基础密度泛函理论：求解薛定谔方程的一个物理模型 推导思维过程： 先讲讲薛定谔方程，对于一个系统（一块材料），我们一定可以写出一个薛定谔方程，这个薛定谔方程的解就是波函数，我们拿到这个波函数后就可以探究得到系统的各种性质。 但薛定谔方程的求解对于单电子（氢原子）系统来说简单，对于多电子就非常的难，也就是说除了氢原子的薛定谔方程可以精确求解，其他的都不行。 密度">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719021436096.png">
+<meta property="og:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719021817153.png">
+<meta property="og:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719022421223.png">
+<meta property="og:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719023117846.png">
+<meta property="og:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024239732.png">
+<meta property="og:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024558493.png">
+<meta property="og:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024711598.png">
+<meta property="article:published_time" content="2022-07-18T17:38:17.000Z">
+<meta property="article:modified_time" content="2022-07-18T18:49:55.603Z">
+<meta property="article:author" content="FangD.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719021436096.png">
+
+
+<link rel="canonical" href="https://goedii.github.io/2022/07/19/VASP%E5%AD%A6%E4%B9%A0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://goedii.github.io/2022/07/19/VASP%E5%AD%A6%E4%B9%A0/","path":"2022/07/19/VASP学习/","title":"VASP学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VASP学习 | Treehole~</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Treehole~</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9ADFT%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">第一节：DFT理论基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%9AVASP%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">第二节：VASP的功能与使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%8A%82%EF%BC%9AVASP%E5%BB%BA%E6%A8%A1%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">第三节：VASP建模介绍</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FangD."
+      src="/images/lzyj.jpg">
+  <p class="site-author-name" itemprop="name">FangD.</p>
+  <div class="site-description" itemprop="description">偶尔把零碎的想法丢进树洞里</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/1042236370@qq.com" title="E-Mail → 1042236370@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://goedii.github.io/2022/07/19/VASP%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lzyj.jpg">
+      <meta itemprop="name" content="FangD.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Treehole~">
+      <meta itemprop="description" content="偶尔把零碎的想法丢进树洞里">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VASP学习 | Treehole~">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VASP学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-19 01:38:17 / 修改时间：02:49:55" itemprop="dateCreated datePublished" datetime="2022-07-19T01:38:17+08:00">2022-07-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学习资料来源：B站</p>
+<hr>
+<h4 id="第一节：DFT理论基础"><a href="#第一节：DFT理论基础" class="headerlink" title="第一节：DFT理论基础"></a>第一节：DFT理论基础</h4><p>密度泛函理论：求解薛定谔方程的一个物理模型</p>
+<p>推导思维过程：</p>
+<p>先讲讲薛定谔方程，对于一个系统（一块材料），我们一定可以写出一个薛定谔方程，这个薛定谔方程的解就是波函数，我们拿到这个波函数后就可以探究得到系统的各种性质。</p>
+<p>但薛定谔方程的求解对于单电子（氢原子）系统来说简单，对于多电子就非常的难，也就是说除了氢原子的薛定谔方程可以精确求解，其他的都不行。</p>
+<p>密度泛函理论的核心思想：</p>
+<p>用电子密度来代替波函数，也就是说，把薛定谔方程的自变量从波函数换到了电子密度。</p>
+<p>HK定理证明了两件事：</p>
+<p>第一，体系能量是电子密度的泛函，而基态电子密度决定了基态的所有性质，包括能量和波函数；</p>
+<p>第二，最低的体系能量对应的电子密度就是处理过后的薛定谔方程的解，也就是基态电子密度；</p>
+<p>所以我们直接使体系能量最小就可以得到对应的电子密度就可以得到材料性质了？不不不，这个泛函的表达式我们还不知道呢。</p>
+<p>HK给出了一个形式：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719021436096.png" alt="image-20220719021436096"></p>
+<p>总能量&#x3D;已知能量+未知能量（也就是交换关联能）</p>
+<p>已知能量（Eknown）我们可以写出表达式，这一部分是明朗的，但是由于材料内部粒子间复杂的相互作用导致有一部分能量是没办法准确算出来的，也就是说这部分能量我们是没法写出准确的表达式的，这部分就叫做交换关联能Exc。</p>
+<p>那咋办，总不可能这件事儿就这么撂下了吧？</p>
+<p>这个时候科恩和他的学生沈吕九提出了一个KS方程，通过这个方程其实就可以绕过刚才写交换关联能的那一步直接通过迭代解出在一定精度下的准确的基态电子密度：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719021817153.png" alt="image-20220719021817153"></p>
+<p>这个方程的解是波函数，波函数和电子密度联系的关系式：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719022421223.png" alt="image-20220719022421223"></p>
+<p>迭代方法：</p>
+<p>1.初始定义一个电子密度n</p>
+<p>2.解用这个电子密度定义的KS方程，可以解出一个波函数</p>
+<p>3.利用上面给出两者的关系式，由这个波函数解出一个电子密度nks</p>
+<p>4.把nks与n进行比较，如果在给定的精确范围之下两者不能算是相等，就要改变n的值从第二步继续，如果两者能算相等，这个n就是我们要找的基态电子密度。</p>
+<p>Tips：</p>
+<p>我当时很疑惑文中要说解由电子密度定义的ks方程，我看方程中没有n存在的项，我之后仔细看了看，文章说，n其实在VH那一项里面（如下图所示），我们只有通过n定义了这一项整个ks方程才算是明朗。</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719023117846.png" alt="image-20220719023117846"></p>
+<p>KS方程中有两项尚不明确，一个就是VH，上面这个Tips已经说了他的定义方法，另外一个就是Vxc，下面就要讲讲如何近似（交换关联能是无法精确求解的只能是近似），而近似的方法呢，就是我们所熟知的LDA、GGA了</p>
+<hr>
+<h4 id="第二节：VASP的功能与使用"><a href="#第二节：VASP的功能与使用" class="headerlink" title="第二节：VASP的功能与使用"></a>第二节：VASP的功能与使用</h4><p>VASP软件包的基本特点：</p>
+<p>1.平面波基矢</p>
+<p>有一个强加的周期性边界条件</p>
+<p>2.基于赝势的密度泛函计算</p>
+<p>内层电子波函数是不被化学成键所影响的</p>
+<p>3.系统全面的泛函与固体材料计算功能</p>
+<p>主要功能：</p>
+<p>1.能量计算：</p>
+<p>（1）相稳定性、相图（2）缺陷形成能（3）反应自由能（4）表面、界面稳定性分析（5）力学性能</p>
+<p>2.电子态计算</p>
+<p>（1）成键分析（2）态密度、能带结构（3）（4）（5）</p>
+<p>VASP缺陷：</p>
+<p>对于各种大尺度的计算VASP都不适合</p>
+<p>计算步骤：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024239732.png" alt="image-20220719024239732"></p>
+<p>其中的电子步其实就是在进行自洽循环来迭代求解KS方程</p>
+<p>VASP基本输入文件</p>
+<p>1.POSCAR</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024558493.png" alt="image-20220719024558493"></p>
+<p>2.INCAR、KPOINTS、POTCAR</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024711598.png" alt="image-20220719024711598"></p>
+<p>其实有了POSCAR之后就能在VASP里面生成剩下三个文件</p>
+<hr>
+<h4 id="第三节：VASP建模介绍"><a href="#第三节：VASP建模介绍" class="headerlink" title="第三节：VASP建模介绍"></a>第三节：VASP建模介绍</h4><p>VESTA</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/18/%E5%9B%BE%E5%BA%8A%E7%9B%B8%E5%85%B3/" rel="prev" title="图床相关">
+                  <i class="fa fa-chevron-left"></i> 图床相关
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FangD.</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

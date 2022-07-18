@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -162,6 +162,130 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://goedii.github.io/2022/07/19/VASP%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lzyj.jpg">
+      <meta itemprop="name" content="FangD.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Treehole~">
+      <meta itemprop="description" content="偶尔把零碎的想法丢进树洞里">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Treehole~">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/19/VASP%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">VASP学习</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-19 01:38:17 / 修改时间：02:49:55" itemprop="dateCreated datePublished" datetime="2022-07-19T01:38:17+08:00">2022-07-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>学习资料来源：B站</p>
+<hr>
+<h4 id="第一节：DFT理论基础"><a href="#第一节：DFT理论基础" class="headerlink" title="第一节：DFT理论基础"></a>第一节：DFT理论基础</h4><p>密度泛函理论：求解薛定谔方程的一个物理模型</p>
+<p>推导思维过程：</p>
+<p>先讲讲薛定谔方程，对于一个系统（一块材料），我们一定可以写出一个薛定谔方程，这个薛定谔方程的解就是波函数，我们拿到这个波函数后就可以探究得到系统的各种性质。</p>
+<p>但薛定谔方程的求解对于单电子（氢原子）系统来说简单，对于多电子就非常的难，也就是说除了氢原子的薛定谔方程可以精确求解，其他的都不行。</p>
+<p>密度泛函理论的核心思想：</p>
+<p>用电子密度来代替波函数，也就是说，把薛定谔方程的自变量从波函数换到了电子密度。</p>
+<p>HK定理证明了两件事：</p>
+<p>第一，体系能量是电子密度的泛函，而基态电子密度决定了基态的所有性质，包括能量和波函数；</p>
+<p>第二，最低的体系能量对应的电子密度就是处理过后的薛定谔方程的解，也就是基态电子密度；</p>
+<p>所以我们直接使体系能量最小就可以得到对应的电子密度就可以得到材料性质了？不不不，这个泛函的表达式我们还不知道呢。</p>
+<p>HK给出了一个形式：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719021436096.png" alt="image-20220719021436096"></p>
+<p>总能量&#x3D;已知能量+未知能量（也就是交换关联能）</p>
+<p>已知能量（Eknown）我们可以写出表达式，这一部分是明朗的，但是由于材料内部粒子间复杂的相互作用导致有一部分能量是没办法准确算出来的，也就是说这部分能量我们是没法写出准确的表达式的，这部分就叫做交换关联能Exc。</p>
+<p>那咋办，总不可能这件事儿就这么撂下了吧？</p>
+<p>这个时候科恩和他的学生沈吕九提出了一个KS方程，通过这个方程其实就可以绕过刚才写交换关联能的那一步直接通过迭代解出在一定精度下的准确的基态电子密度：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719021817153.png" alt="image-20220719021817153"></p>
+<p>这个方程的解是波函数，波函数和电子密度联系的关系式：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719022421223.png" alt="image-20220719022421223"></p>
+<p>迭代方法：</p>
+<p>1.初始定义一个电子密度n</p>
+<p>2.解用这个电子密度定义的KS方程，可以解出一个波函数</p>
+<p>3.利用上面给出两者的关系式，由这个波函数解出一个电子密度nks</p>
+<p>4.把nks与n进行比较，如果在给定的精确范围之下两者不能算是相等，就要改变n的值从第二步继续，如果两者能算相等，这个n就是我们要找的基态电子密度。</p>
+<p>Tips：</p>
+<p>我当时很疑惑文中要说解由电子密度定义的ks方程，我看方程中没有n存在的项，我之后仔细看了看，文章说，n其实在VH那一项里面（如下图所示），我们只有通过n定义了这一项整个ks方程才算是明朗。</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719023117846.png" alt="image-20220719023117846"></p>
+<p>KS方程中有两项尚不明确，一个就是VH，上面这个Tips已经说了他的定义方法，另外一个就是Vxc，下面就要讲讲如何近似（交换关联能是无法精确求解的只能是近似），而近似的方法呢，就是我们所熟知的LDA、GGA了</p>
+<hr>
+<h4 id="第二节：VASP的功能与使用"><a href="#第二节：VASP的功能与使用" class="headerlink" title="第二节：VASP的功能与使用"></a>第二节：VASP的功能与使用</h4><p>VASP软件包的基本特点：</p>
+<p>1.平面波基矢</p>
+<p>有一个强加的周期性边界条件</p>
+<p>2.基于赝势的密度泛函计算</p>
+<p>内层电子波函数是不被化学成键所影响的</p>
+<p>3.系统全面的泛函与固体材料计算功能</p>
+<p>主要功能：</p>
+<p>1.能量计算：</p>
+<p>（1）相稳定性、相图（2）缺陷形成能（3）反应自由能（4）表面、界面稳定性分析（5）力学性能</p>
+<p>2.电子态计算</p>
+<p>（1）成键分析（2）态密度、能带结构（3）（4）（5）</p>
+<p>VASP缺陷：</p>
+<p>对于各种大尺度的计算VASP都不适合</p>
+<p>计算步骤：</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024239732.png" alt="image-20220719024239732"></p>
+<p>其中的电子步其实就是在进行自洽循环来迭代求解KS方程</p>
+<p>VASP基本输入文件</p>
+<p>1.POSCAR</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024558493.png" alt="image-20220719024558493"></p>
+<p>2.INCAR、KPOINTS、POTCAR</p>
+<p><img src="https://blogimg-1251547709.cos.ap-beijing.myqcloud.com/image-20220719024711598.png" alt="image-20220719024711598"></p>
+<p>其实有了POSCAR之后就能在VASP里面生成剩下三个文件</p>
+<hr>
+<h4 id="第三节：VASP建模介绍"><a href="#第三节：VASP建模介绍" class="headerlink" title="第三节：VASP建模介绍"></a>第三节：VASP建模介绍</h4><p>VESTA</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
